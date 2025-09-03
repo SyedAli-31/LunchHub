@@ -137,9 +137,10 @@ const Home: React.FC = () => {
                 <div className="inline-flex items-center px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-medium">
                   🔥 Special Order Exclusive
                 </div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
+                <h2 className="hidden md:inline-flex text-3xl sm:text-4xl md:text-5xl font-bold">
                  Special Shahi <br /> Beef Haleem
                 </h2>
+                <p className="md:hidden inline-flex text-3xl sm:text-4xl md:text-5xl font-bold">Special Shahi Beef Haleem</p>
                 <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
                   Original recipe se banaya gaya authentic haleem. Special occasions ke liye perfect.
                   Advance order required for fresh preparation.
