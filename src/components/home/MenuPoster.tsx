@@ -173,7 +173,7 @@ const MenuPoster: FC = () => {
 
           <div className="flex flex-col items-start md:items-end gap-2">
             <Button asChild className="bg-gradient-to-r from-momra-maroon via-momra-warms to-momra-amber  text-white hover:shadow-lg" data-testid="menu-order-button">
-              <Link href="https://wa.me/03486906754" target="_blank" rel="noopener noreferrer">
+              <Link href=" https://wa.me/923486906754?text=I want lunch service for my office employees" target="_blank" rel="noopener noreferrer">
                 Order Now
               </Link>
             </Button>
