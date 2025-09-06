@@ -15,7 +15,6 @@ const Footer: React.FC = () => {
     { name: "Home", href: "/" },
     { name: "Menu", href: "/menu" },
     { name: "About", href: "/about" },
-    { name: "Corporate", href: "/corporate" },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -23,12 +22,12 @@ const Footer: React.FC = () => {
     "Daily Orders",
     "Weekly Contracts",
     "Bulk Catering",
-    "Event Catering",
+    "Family Events",
     "Custom Menus",
   ];
 
   return (
-    <footer className="bg-accent-foreground text-white py-12 md:py-16">
+    <footer className="bg-gradient-to-r from-momra-maroon via-momra-warms to-[#885a0b] text-white py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}

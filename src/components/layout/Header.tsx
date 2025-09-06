@@ -43,7 +43,7 @@ const Header = () => {
   }, [mobileMenuOpen]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass-effect border-b border-border bg-background">
+    <section className="fixed top-0 left-0 right-0 z-50 glass-effect border-b border-border bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -57,7 +57,7 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -72,7 +72,7 @@ const Header = () => {
                 </span>
               </Link>
             ))}
-          </nav>
+          </div>
 
           {/* CTA Button & Mobile Menu Toggle */}
           <div className="flex items-center space-x-4">
@@ -82,14 +82,14 @@ const Header = () => {
               size="sm"
               data-testid="header-order-button"
             >
-              <a
-                href="https://wa.me/923486906754"
+              <Link
+                href="https://wa.me/923486906754?text=I want lunch service for my office employees"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Phone className="w-4 h-4 mr-2" />
                 Order Now
-              </a>
+              </Link>
             </Button>
 
             {/* Mobile Menu Button */}
@@ -140,7 +140,7 @@ const Header = () => {
                   data-testid="mobile-order-button"
                 >
                   <Link
-                    href="https://wa.me/923486906754"
+                    href="https://wa.me/923486906754?text=I want lunch service for my office employees"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -153,7 +153,7 @@ const Header = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </section>
   );
 };
 

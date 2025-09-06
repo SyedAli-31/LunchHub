@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   CheckCircle,
   Clock,
@@ -39,6 +41,25 @@ interface PopularDish {
 
 const Home: React.FC = () => {
 
+  
+  const slides = ["/Haleem-3.png", "/Haleem-2.png"];
+  const [current, setCurrent] = useState(0);
+
+    // Auto-slide every 4 sec (optional)
+    useEffect(() => {
+      const timer = setInterval(() => {
+        setCurrent((prev) => (prev + 1) % slides.length);
+      }, 4000);
+      return () => clearInterval(timer);
+    }, [slides.length]);
+
+    const prevSlide = () => {
+      setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+    };
+
+    const nextSlide = () => {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    };
 
   const features = [
   
@@ -98,6 +119,7 @@ const Home: React.FC = () => {
     },
   ];
 
+  
   return (
     <div className="min-h-screen">
       {/* Hero Carousel Section */}
@@ -107,6 +129,7 @@ const Home: React.FC = () => {
       <section id="special-haleem" className="py-16 md:py-20 bg-gradient-to-r from-red-50 to-orange-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            {/* Left Carousel */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -114,18 +137,54 @@ const Home: React.FC = () => {
               viewport={{ once: true }}
               className="order-2 lg:order-1"
             >
-              <div className="relative w-full h-[500px]">
-                <Image
-                  src="/Haleem-1.jpg"
-                  alt="Special Hyderabadi Haleem"
-                  fill
-                  className="object-cover rounded-2xl shadow-2xl"
-                  priority
-                />
-              </div>
+              <div className="relative w-full h-[500px] overflow-hidden rounded-2xl shadow-2xl">
+                {slides.map((src, index) => (
+                  <motion.div
+                    key={src}
+                    className="absolute inset-0 w-full h-full"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: index === current ? 1 : 0 }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    <Image
+                      src={src}
+                      alt={`Special Haleem ${index + 1}`}
+                      fill
+                      className="object-cover rounded-2xl"
+                      priority={index === 0}
+                    />
+                  </motion.div>
+                ))}
 
+                {/* Controls */}
+                <button
+                  onClick={prevSlide}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 p-2 rounded-full text-white"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 p-2 rounded-full text-white"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+
+                {/* Dots */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                  {slides.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrent(idx)}
+                      className={`w-3 h-3 rounded-full ${idx === current ? "bg-red-600" : "bg-white/70"
+                        }`}
+                    />
+                  ))}
+                </div>
+              </div>
             </motion.div>
 
+            {/* Right Content (as it is) */}
             <motion.div
               className="space-y-6 order-1 lg:order-2"
               initial={{ opacity: 0, x: 20 }}
@@ -133,14 +192,15 @@ const Home: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
             >
+              {/* tumhara jo text tha wahi */}
               <div className="space-y-4">
                 <div className="inline-flex items-center px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-medium">
                   🔥 Special Order Exclusive
                 </div>
                 <h2 className="hidden md:inline-flex text-3xl sm:text-4xl md:text-5xl font-bold">
-                 Special Shahi <br /> Beef Haleem
+                  Special Shahi Piyala Haleem
                 </h2>
-                <p className="md:hidden inline-flex text-3xl sm:text-4xl md:text-5xl font-bold">Special Shahi Beef Haleem</p>
+                <p className="md:hidden inline-flex text-3xl sm:text-4xl md:text-5xl font-bold">Special Shahi Piyala Haleem</p>
                 <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
                   Original recipe se banaya gaya authentic haleem. Special occasions ke liye perfect.
                   Advance order required for fresh preparation.
@@ -150,7 +210,7 @@ const Home: React.FC = () => {
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                  <span className="text-sm md:text-base">Traditional 6-hour slow cooking process</span>
+                  <span className="text-sm md:text-base">Traditional Recipe, Authentic Taste</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
@@ -166,30 +226,12 @@ const Home: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 items-start">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-gradient-to-r from-momra-maroon via-momra-warms to-momra-amber text-white hover:shadow-xl w-full sm:w-auto"
-                  data-testid="order-special-haleem"
-                >
-                  <Link
-                    href="https://wa.me/923486906754?text=I want to order special Hyderabadi Haleem for my office"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center"
-                  >
-                    <MessageCircle className="w-5 h-5 mr-2" />
-                    Order Special Haleem
-                  </Link>
-                </Button>
-                <div className="text-center sm:text-left">
-                  <div className="text-2xl font-bold text-red-600">₨200/plate</div>
-                  <div className="text-sm text-gray-500">Including fresh naan</div>
-                </div>
-              </div>
+              {/* features, price, button ... baki sab same */}
             </motion.div>
           </div>
+
+
+
         </div>
       </section>
 
@@ -207,7 +249,7 @@ const Home: React.FC = () => {
               Most Loved Dishes
             </h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-              Our signature bestsellers, crafted with authentic flavors and trusted by our valued customers.
+              Our bestsellers, crafted with authentic flavors and trusted by our valued customers.
             </p>
 
           </motion.div>
@@ -247,7 +289,7 @@ const Home: React.FC = () => {
                       className="w-full bg-gradient-to-r from-momra-maroon via-momra-warms to-momra-amber text-white"
                     >
                       <Link
-                        href={`https://wa.me/923486906754?text=I want to order ${dish.name} for my office`}
+                        href={`https://wa.me/923486906754?text=I want to order ${dish.name} for my office. Quantity ( ?)`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center"
@@ -330,7 +372,7 @@ const Home: React.FC = () => {
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">Pricing Plans</h2>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-              Choose the perfect plan for your office size. Bulk orders mein special discounts!
+              Choose the perfect plan for your office size. Special discounts on Bulk orders!
             </p>
           </motion.div>
 
@@ -411,10 +453,7 @@ const Home: React.FC = () => {
                       <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
                       <span className="text-sm">Dedicated support</span>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-sm">Menu customization</span>
-                    </div>
+                  
                   </div>
                   <Button
                     asChild
@@ -443,7 +482,7 @@ const Home: React.FC = () => {
               <Card className="relative overflow-hidden h-full">
                 <CardHeader className="text-center">
                   <CardTitle className="text-2xl">Bulk Orders</CardTitle>
-                  <CardDescription>For large events</CardDescription>
+                  <CardDescription>For large orders</CardDescription>
                   <div className="text-4xl font-bold text-red-600 mt-4">₨250-300</div>
                   <div className="text-sm text-gray-500">per person</div>
                 </CardHeader>
@@ -451,15 +490,16 @@ const Home: React.FC = () => {
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-sm">30% discount (50+ orders)</span>
+                      <span className="text-sm">Available for a minimum of 50 servings</span>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                      <span className="text-sm">Event planning support</span>
-                    </div>
+                    
                     <div className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
                       <span className="text-sm">Custom packaging</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                      <span className="text-sm">Menu customization</span>
                     </div>
                   </div>
                   <Button
@@ -525,7 +565,7 @@ const Home: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <Card className="overflow-hidden h-full border-0 shadow-2xl bg-gradient-to-br from-white via-amber-50 to-orange-50 group-hover:shadow-3xl transition-all duration-500">
+              <Card className="overflow-hidden md:w-full w-80 h-full border-0 shadow-2xl bg-gradient-to-br from-white via-amber-50 to-orange-50 group-hover:shadow-3xl transition-all duration-500">
                 <div className="relative h-64 md:h-80 overflow-hidden">
                   
                     <Image
@@ -550,26 +590,25 @@ const Home: React.FC = () => {
                   <div className="mt-4 space-y-6">
                     <div>
                       <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-amber-700 to-red-700 bg-clip-text text-transparent mb-3">
-                        Premium Hyderabadi Haleem
+                        Premium Shahi Beef Haleem
                       </h3>
                       <p className="text-slate-600 leading-relaxed text-base md:text-lg">
-                        Slow-cooked for 8 hours with premium mutton, wheat, and aromatic spices. Perfect for special gatherings,
-                        dawat, or when you want to impress your guests with authentic Hyderabadi flavors.
+                        Made with premium beef, wheat and aromatic spices - perfect for family gatherings, dawats, and special events.
                       </p>
                     </div>
 
                     <div className="space-y-3">
                       <div className="flex items-center text-slate-700">
                         <Timer className="w-5 h-5 mr-3 text-amber-600 flex-shrink-0" />
-                        <span className="font-medium text-sm md:text-base">8 hours slow cooking process</span>
+                        <span className="font-medium text-sm md:text-base">Prepared with Premium Ingredients & Spices</span>
                       </div>
                       <div className="flex items-center text-slate-700">
                         <Award className="w-5 h-5 mr-3 text-amber-600 flex-shrink-0" />
-                        <span className="font-medium text-sm md:text-base">Premium Beef & authentic spices</span>
+                        <span className="font-medium text-sm md:text-base">Premium Beef & authentic recipes</span>
                       </div>
                       <div className="flex items-center text-slate-700">
                         <Users className="w-5 h-5 mr-3 text-amber-600 flex-shrink-0" />
-                        <span className="font-medium text-sm md:text-base">Perfect for 10+ guests</span>
+                        <span className="font-medium text-sm md:text-base">Perfect for 15+ guests</span>
                       </div>
                     </div>
 
@@ -594,7 +633,7 @@ const Home: React.FC = () => {
                         data-testid="dawat-haleem-order"
                       >
                         <Link
-                          href="https://wa.me/923486906754?text=Ghar ki dawat ke liye premium haleem order karna hai. 10+ plates chahiye."
+                          href="https://wa.me/923486906754?text=Ghar ki dawat ke liye premium shahi haleem order karna hai."
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center justify-center"
@@ -618,7 +657,7 @@ const Home: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
             >
-              <Card className="overflow-hidden h-full border-0 shadow-2xl bg-gradient-to-br from-white via-orange-50 to-red-50 group-hover:shadow-3xl transition-all duration-500">
+              <Card className="overflow-hidden md:w-full w-80 h-full border-0 shadow-2xl bg-gradient-to-br from-white via-orange-50 to-red-50 group-hover:shadow-3xl transition-all duration-500">
                 <div className="relative h-64 md:h-80 overflow-hidden">
                  
                     <Image
@@ -646,19 +685,19 @@ const Home: React.FC = () => {
                         Special Occasion Biryani
                       </h3>
                       <p className="text-slate-600 leading-relaxed text-base md:text-lg">
-                        Fragrant basmati rice layered with tender chicken or Beef, cooked with premium saffron and traditional dum style.
-                        Perfect centerpiece for your special celebrations and family gatherings.
+                        Fragrant basmati rice layered with tender chicken or Beef, cooked with premium and traditional style.
+                        Perfect centerpiece for your special events and family gatherings.
                       </p>
                     </div>
 
                     <div className="space-y-3">
                       <div className="flex items-center text-slate-700">
                         <Timer className="w-5 h-5 mr-3 text-red-600 flex-shrink-0" />
-                        <span className="font-medium text-sm md:text-base">Traditional dum cooking method</span>
+                        <span className="font-medium text-sm md:text-base">Traditional cooking method</span>
                       </div>
                       <div className="flex items-center text-slate-700">
                         <Award className="w-5 h-5 mr-3 text-red-600 flex-shrink-0" />
-                        <span className="font-medium text-sm md:text-base">Premium basmati & saffron</span>
+                        <span className="font-medium text-sm md:text-base">Premium rice & quality</span>
                       </div>
                       <div className="flex items-center text-slate-700">
                         <Users className="w-5 h-5 mr-3 text-red-600 flex-shrink-0" />
@@ -676,7 +715,7 @@ const Home: React.FC = () => {
                         </div>
                         <div className="text-right">
                           <p className="text-sm text-slate-500">Minimum Order</p>
-                          <p className="text-lg md:text-xl font-bold text-slate-700">8 plates</p>
+                          <p className="text-lg md:text-xl font-bold text-slate-700">5 Kg</p>
                         </div>
                       </div>
 
@@ -687,7 +726,7 @@ const Home: React.FC = () => {
                         data-testid="dawat-biryani-order"
                       >
                         <Link
-                          href="https://wa.me/923486906754?text=Ghar ki dawat ke liye special biryani order karna hai. 8+ plates chahiye."
+                          href="https://wa.me/923486906754?text=Ghar ki dawat ke liye special biryani order karna hai."
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center justify-center"
@@ -715,14 +754,14 @@ const Home: React.FC = () => {
                   viewport={{ once: true }}
                   className="order-2 lg:order-1"
                 >
-                  <div className="relative w-full h-[500px]"> {/* Adjust height as needed */}
-                    <Image
-                      src="/fresh.png"
-                      alt="Fresh food delivery"
-                      fill
-                      className="object-cover rounded-2xl shadow-2xl"
-                      priority
-                    />
+                  <div className="relative w-full h-[300px] md:h-[500px]"> {/* Adjust height as needed */}
+                     <Image
+                                src="/fresh.png"
+                                alt="LunchHub Kitchen"
+                                width={600}
+                                height={400}
+                                className="rounded-3xl shadow-2xl object-cover w-full h-auto"
+                              />
                   </div>
                 </motion.div>
 
@@ -808,7 +847,7 @@ const Home: React.FC = () => {
 
 
       {/* Features Section */}
-      <section className="py-16 md:py-10 bg-white">
+      <section className="py-6 md:py-10 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Heading */}
           <motion.div
@@ -869,7 +908,7 @@ const Home: React.FC = () => {
             </p>
 
             {/* Quick Action Buttons */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-4 max-w-4xl mx-auto mb-8">
               <Button
                 asChild
                 size="lg"
@@ -877,13 +916,13 @@ const Home: React.FC = () => {
                 data-testid="cta-quick-order"
               >
                 <Link
-                  href="https://wa.me/923486906754?text=Today ka lunch order karna hai"
+                  href="https://wa.me/923486906754?text=Office k liye lunch order karna hai"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center"
                 >
                   <MessageCircle className="w-5 h-5 mr-2" />
-                  Today Order Karein
+                  Order Now
                 </Link>
               </Button>
 
@@ -895,33 +934,17 @@ const Home: React.FC = () => {
                 data-testid="cta-weekly-plan"
               >
                 <Link
-                  href="https://wa.me/923486906754?text=Weekly contract ke baare mein jaanna hai"
-                  target="_blank"
+                  href="/menu"
+                 
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center"
                 >
                   <Calendar className="w-5 h-5 mr-2" />
-                  Weekly Plan
+                  Menu Plan
                 </Link>
               </Button>
 
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="hover:shadow-lg sm:col-span-2 lg:col-span-1"
-                data-testid="cta-special-haleem"
-              >
-                <Link
-                  href="https://wa.me/923486906754?text=Special haleem order karna hai"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center"
-                >
-                  <ChefHat className="w-5 h-5 mr-2" />
-                  Special Haleem
-                </Link>
-              </Button>
+              
             </div>
 
             {/* Contact Info */}
@@ -936,7 +959,7 @@ const Home: React.FC = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <ThumbsUp className="w-5 h-5" />
-                <span className="text-sm md:text-base">500+ Happy Offices</span>
+                <span className="text-sm md:text-base">20+ Happy Offices</span>
               </div>
             </div>
           </motion.div>

@@ -29,11 +29,11 @@ const heroSlides: HeroSlide[] = [
     title: "Fresh Office Lunch Service",
     subtitle: "Ghar Jaisa Taste • Daily Fresh • Premium Quality",
     description:
-      "50+ offices ka bharosa! Authentic Pakistani cuisine delivered fresh to your workplace. 4-week rotating menu with traditional flavors.",
+      "20+ offices ka bharosa! Authentic Pakistani cuisine delivered fresh to your workplace. 4-week rotating menu with traditional flavors.",
     image: "/lunch.png",
     primaryCTA: {
       text: "Order Today",
-      href: "https://wa.me/923486906754?text=Today ka lunch order karna hai",
+      href: "https://wa.me/923486906754?text=lunch order karna hai. Send details",
     },
     secondaryCTA: {
       text: "View Menu",
@@ -231,9 +231,9 @@ const HeroCarousel: React.FC = () => {
                     className="gradient-maroon-amber text-white hover:shadow-2xl text-lg px-8 py-4"
                   >
                     {currentSlideData.primaryCTA.href.startsWith("http") ? (
-                      <a href={currentSlideData.primaryCTA.href} target="_blank" rel="noopener noreferrer">
+                      <Link href={currentSlideData.primaryCTA.href} target="_blank" rel="noopener noreferrer">
                         {currentSlideData.primaryCTA.text}
-                      </a>
+                      </Link>
                     ) : (
                       <Link href={currentSlideData.primaryCTA.href}>{currentSlideData.primaryCTA.text}</Link>
                     )}
@@ -246,9 +246,9 @@ const HeroCarousel: React.FC = () => {
                     className="border-white text-white hover:bg-white hover:text-black text-lg px-8 py-4 bg-white/10 backdrop-blur-sm"
                   >
                     {currentSlideData.secondaryCTA.href.startsWith("http") ? (
-                      <a href={currentSlideData.secondaryCTA.href} target="_blank" rel="noopener noreferrer">
+                      <Link href={currentSlideData.secondaryCTA.href} target="_blank" rel="noopener noreferrer">
                         {currentSlideData.secondaryCTA.text}
-                      </a>
+                      </Link>
                     ) : (
                       <Link href={currentSlideData.secondaryCTA.href}>{currentSlideData.secondaryCTA.text}</Link>
                     )}
@@ -307,7 +307,7 @@ const HeroCarousel: React.FC = () => {
       >
         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-white text-center grid gap-4">
           <div>
-            <div className="text-3xl font-bold">50+</div>
+            <div className="text-3xl font-bold">20+</div>
             <div className="text-sm text-white/80">Happy Offices</div>
           </div>
           <div>
